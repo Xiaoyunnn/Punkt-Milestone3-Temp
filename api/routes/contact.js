@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const nodemailer = require("nodemailer");
-// const sgMail = require('@sendgrid/mail')
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const nodemailerSendgrid = require('nodemailer-sendgrid');
 
 router.get("/", (req, res) => {

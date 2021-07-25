@@ -4,13 +4,13 @@ const passport = require("passport");
 const passwordValidator = require("password-validator");
 const schema = new passwordValidator();
 const User = require("../models/user");
-const flash = require("express-flash");
 const async = require("async");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const nodemailerSendgrid = require('nodemailer-sendgrid');
 
-const CLIENT_URL = "http://localhost:3000";
+const CLIENT_URL = "https://punkt-orbital.netlify.app";
+//http://localhost:3000
 
 schema
   .is()
@@ -172,14 +172,6 @@ router.post("/forgot-password", function (req, res, next) {
           })
         );
 
-
-        // let transporter = nodemailer.createTransport({
-        //   service: "gmail",
-        //   auth: {
-        //     user: "punkt.orbital@gmail.com",
-        //     pass: process.env.GMAILPW,
-        //   },
-        // });
         const mailOptions = {
           from: "punkt.orbital@gmail.com",
           to: user.email,
@@ -197,12 +189,6 @@ router.post("/forgot-password", function (req, res, next) {
             "If you did not request for password reset, please ignore this email and your password will remain unchanged.\n\n" +
             "Punkt Developer Team",
         };
-        // transporter.sendMail(mailOptions, function (err) {
-        //   res.status(200).json({
-        //     message: "Please check your email for further instructions.",
-        //   });
-        //   done(err, "done");
-        // });
 
         transport.sendMail(mailOptions)
           .then((response) => {
@@ -303,13 +289,6 @@ router.post("/reset/:token", (req, res) => {
             apiKey: process.env.SENDGRID_API_KEY
           })
         );
-        // let transporter = nodemailer.createTransport({
-        //   service: "gmail",
-        //   auth: {
-        //     user: "punkt.orbital@gmail.com",
-        //     pass: process.env.GMAILPW,
-        //   },
-        // });
 
         const mailOptions = {
           to: user.email,
@@ -324,30 +303,19 @@ router.post("/reset/:token", (req, res) => {
             " has just been changed.\n\n" +
             "Punkt Developer Team",
         };
-        // transporter.sendMail(mailOptions, function (err) {
-        //   if (err) {
-        //     console.log(err);
-        //     return res.status(500).json({ message: "Server error." });
-        //   } else {
-        //     res.status(200).json({
-        //       message: "Yay! Your password has been changed successfully.",
-        //     });
-        //     done(err);
-        //   }
-        // });
         transport.sendMail(mailOptions)
-          .then((response) => {
-            console.log("email sent");
-            return res
-              .status(200)
-              .json({ message: "Yay! Your password has been changed successfully." });
-          })
-          .catch((err) => {
-            console.log(err);
-            return res.status(500).json(err);
-          });
-      },
-    ],
+        .then((response) => {
+          console.log("email sent");
+          return res
+            .status(200)
+            .json({ message: "Yay! Your password has been changed successfully." });
+        })
+        .catch((err) => {
+          console.log(err);
+          return res.status(500).json(err);
+        });
+    },
+  ],
     (err) => {
       if (err) {
         console.log(err);
