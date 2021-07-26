@@ -33,6 +33,7 @@ const Chat = require("./models/chat");
 const Message = require("./models/message");
 
 const CLIENT_URL = "https://punkt-orbital.netlify.app";
+//const CLIENT_URL = "http://localhost:3000";
 
 const app = express();
 const server = http.createServer(app);
@@ -250,7 +251,7 @@ const PORT = process.env.PORT || 8000;
 
 mongoose
   .connect(
-    "mongodb+srv://punkt:1236Punkt@punkt.x8rbr.mongodb.net/Punkt?retryWrites=true&w=majority",
+    process.env.MONGO_URI,
     //"mongodb://localhost:27017/testDB",
     {
       useNewUrlParser: true,
